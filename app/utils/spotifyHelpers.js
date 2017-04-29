@@ -25,6 +25,14 @@ export const getAuthObj = () => {
       });
 }
 
+const paramify = (oObj) => {
+  var str = oObj.keys(obj).map(function(key) {
+      return key + '=' + obj[key];
+  }).join('&');
+  console.log('str: ', str)
+}
+
+
 export const setAccessToken = (token) => {
   spotifyApi.setAccessToken(token)
 }
@@ -51,9 +59,14 @@ export const getAudioAnalysisForTrack = (id) => {
     });
 }
 
-export const getTrack = (id) => {
+export const getTrackById = (id) => {
   return spotifyApi.getTrack(id)
     .then(function(data) {
       console.log('getTrack: ', data.body)
     })
+}
+
+export default {
+  searchTracks,
+  getTrackById
 }

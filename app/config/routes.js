@@ -5,10 +5,6 @@ import LoginSpotifyContainer from '../containers/LoginSpotifyContainer'
 import LogoutSpotifyContainer from '../containers/LogoutSpotifyContainer'
 import HomePageContainer from '../containers/HomePageContainer'
 import SearchContainer from '../containers/SearchContainer'
-// import Home from '../components/Home'
-// import PromptContainer from '../containers/PromptContainer'
-// import ConfirmBattleContainer from '../containers/ConfirmBattleContainer'
-// import ResultsContainer from '../containers/ResultsContainer'
 
 const routes = (  
   <Router history={hashHistory}>
