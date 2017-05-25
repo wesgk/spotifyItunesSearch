@@ -1,9 +1,16 @@
 import React, { Component } from 'react'
 import SearchForm from '../components/SearchForm'
 import TrackList from '../components/TrackList'
-import { searchTracks, getAudioAnalysisForTrack, getTrack } from '../utils/spotifyHelpers'
+import { searchTracks, getAudioAnalysisForTrack, getTrackById } from '../utils/spotifyHelpers'
 // getTrackById
 import iTunes from '../utils/itunesHelpers'
+
+const searchTypes = {
+    song: 'song',
+    artist: 'artist',
+    songAndArtist: 'song+artist',
+    id: 'id'
+}
 
 class SearchContainer extends Component {
     constructor (props) {
@@ -11,6 +18,7 @@ class SearchContainer extends Component {
         this.state = {
             name: '',
             type: 'song',
+            status: '',
             placeholder: 'Song title',
             tracks: [],
             service: 'spotify',
@@ -24,7 +32,6 @@ class SearchContainer extends Component {
     }
 
     handleServiceUpdate (e) {
-        console.log('service update: ' + e.target.value)
         let service = e.target.value
         this.setState({
             service: e.target.value
@@ -41,16 +48,16 @@ class SearchContainer extends Component {
     updatePlaceholder (type) {
         let placeholder = ''
         switch (type) {
-            case 'song':
+            case searchTypes.song:
                 placeholder = 'Song title'
             break;
-            case 'artist':
+            case searchTypes.artist:
                 placeholder = 'Artist name'
             break;
-            case 'song+artist':
+            case searchTypes.songAndArtist:
                 placeholder = 'Song title, artist name'
             break;
-            case 'id':
+            case searchTypes.id:
                 placeholder = 'ID'
             break;
         }
@@ -68,60 +75,51 @@ class SearchContainer extends Component {
     }
 
     getSpotifyData (type, term) {
-        let searchString = ''
         switch (type) {
-            case 'song':
-                searchString = term
-                return searchTracks(searchString)
-                    .then((data) => (data))
-            break;
-            case 'artist':
-                searchString = 'artist:' + term
-                return searchTracks(searchString)
-                    .then((data) => (data))
-            break;
-            case 'song+artist':
-                // 'track:Alright artist:Kendrick Lamar'
-                let parts = term.split(', ')
-                let track = parts[0]
-                let artist = parts[1]
-                searchString = 'track:' + track + ' artist:' + artist
-                return searchTracks(searchString)
-                    .then((data) => (data))
-            break;
-            case 'id':
-                searchString = term
-                return getTrack(term)
+            // need to reformat single track response
+            case searchTypes.id:
+                return getTrackById(term)
                     .then((data) => (data))
             break;
             default:
-                console.log('default case')
+                return searchTracks(type,   term)
+                    .then((data) => (data))
             break;
-        }
+        }   
     }
 
-    getITunesData (type, term) {
-        let searchString = ''
+    validateForm (type, term) {
+        if(type === searchTypes.songAndArtist) {
+            return term.match('.*\,.*')
+        }
+        return true
+    }
+
+    validationMessage (type) {
+        let msg
         switch (type) {
-            case 'song':
-                searchString = term
-                return iTunes.searchSong(searchString)
-                    .then((data) => (data))
-            break;
-            case 'artist':
-
-            break;
-            case 'id':
-
-            break;
-            default:
-                console.log('default case')
+            case searchTypes.songAndArtist:
+                msg = 'Use the format "song title, artist name"'
             break;
         }
+        return msg
     }
 
     handleSearch (thisService) {
         const service = (typeof thisService === 'string') ? thisService : this.state.service
+        this.setState({status: ''})
+
+        if(!(this.state.name.length)) {
+            return
+        }
+
+        if(!this.validateForm(this.state.type, this.state.name)) {
+            this.setState({
+                status: this.validationMessage(this.state.type)
+            })
+            return false
+        }
+
         this.setState({loading: true})
         switch (service) {
             case 'spotify':
@@ -132,21 +130,17 @@ class SearchContainer extends Component {
                             service
                         })
                         this.setState({loading: false})
-                        console.debug('Spotify Search Complete ', data.tracks.items)
                     })
             break;
 
             case 'itunes':
-                // this.TrackList = ITunesTrackList
-                this.getITunesData(this.state.type, this.state.name)
+                return iTunes.searchSong(this.state.type, this.state.name)
                     .then((data) => {
-                        console.debug('iTunes Search Returned - before state change', data.results)
                         this.setState({
                             tracks: data.results,
                             service
                         })
                         this.setState({loading: false})
-                        console.debug('iTunes Search Returned ', data.results)
                     })
             break;
 
@@ -163,6 +157,7 @@ class SearchContainer extends Component {
                     name={this.state.name} 
                     placeholder={this.state.placeholder}
                     type={this.state.type}
+                    statusMessage={this.state.status}
                     handleServiceUpdate={this.handleServiceUpdate} 
                     handleNameUpdate={this.handleNameUpdate} 
                     handleTypeUpdate={this.handleTypeUpdate} 

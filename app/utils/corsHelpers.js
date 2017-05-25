@@ -43,20 +43,11 @@ export const makeCorsRequest = (url) => {
 
   // Response handlers.
   xhr.onload = () => {
-    console.log('onload ', xhr)
-    /* let text = xhr.responseText;
-    let title = getTitle(text);
-    let response = {
-      text,
-      title
-    }*/
-    // console.log('onload: ' + url + ': ' + title)
-    // alert('Response from CORS request to ' + url + ': ' + title);
     success(xhr.response)
   }
 
   xhr.onerror = () => {
-    console.log('Woops, there was an error making the request.');
+    console.error('Woops, there was an error making the request.');
     alert('Woops, there was an error making the request.');
     fail('error')
   }

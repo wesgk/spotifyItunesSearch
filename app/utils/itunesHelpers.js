@@ -23,12 +23,12 @@ lang=en_us
 
 let api = 'https://itunes.apple.com/search?'
 
-let options = {
-    term: 'n/a',
+let defaultOptions = {
+    term: 'n/a', // replaced
     country: 'CA',
     media: 'music',
-    entity: 'song',
-    attribute: 'artistTerm',
+    entity: 'song', // replaced
+    attribute: 'artistTerm', // replaced
     limit: 10,
     lang: 'en_us',
 }
@@ -73,15 +73,49 @@ export const formatITunesData = (obj) => {
     return data
 } 
 
-export const searchSong = (name) => {
-    options.term = name
+const getOptionSettings = (type, name) => {
+    let options = {}
+    switch(type) {
+        case 'song':
+            options = {
+                term: name,
+                entity: 'song',
+                attribute: 'songTerm'
+            }
+        break;
+        case 'artist':
+            options = {
+                term: name,
+                entity: 'musicArtist',
+                attribute: 'artistTerm'
+            }
+        break;
+        case 'song+artist':
+            options = {
+                term: name,
+                entity: 'musicTrack',
+                attribute: 'artistTerm'
+            }
+        break;
+        case 'id':
+            options = {
+                term: name,
+                entity: 'musicTrack',
+                attribute: 'artistTerm'
+            }
+        break;
+    }
+
+    return Object.assign({}, defaultOptions, options)
+}
+
+export const searchSong = (type, name) => {
+    let options = getOptionSettings(type, name)
     let url = api + toParams(options)
     
     return makeCorsRequest(url)
         .then((res) => {
             let data = JSON.parse(res)
-            // const formattedData = formatITunesData(data)
-            // console.log('formatted itunes data: ', formattedData)
             return data
         })
 }

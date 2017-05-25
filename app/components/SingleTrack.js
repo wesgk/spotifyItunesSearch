@@ -17,7 +17,7 @@ function SingleTrack ({track}) {
                         <dt>Artist</dt>
                         <dd><a href={artistHref} target="_blank">{track.artists[0].name}</a></dd>
                         <dt>Track name</dt>
-                        <dd><a href={track.href} target="_blank">{track.name}</a></dd>
+                        <dd><a href={track.track.href} target="_blank">{track.track.name}</a></dd>
                         <dt>Album name</dt>
                         <dd><a href={track.album.href} target="_blank">{track.album.name}</a></dd>
                     </dl>

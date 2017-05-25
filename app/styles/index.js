@@ -15,6 +15,10 @@ var styles = {
   img: {
     maxWidth: '100%'
   },
+  errorMessage: {
+    color: '#900',
+    marginBottom: '15px'
+  }
 };
 
 module.exports = styles;

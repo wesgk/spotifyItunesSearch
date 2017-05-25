@@ -14,10 +14,9 @@ const spotifyApi = new SpotifyWebApi();
 
 export const getAuthObj = () => {
     const api = authUrl + 'authcode';
-    console.log('API to: ' + api);
+    
     return axios.get(api)
       .then(function (response) {
-        console.log('response: ', response);
         return response;
       })
       .catch(function (error){
@@ -29,7 +28,6 @@ const paramify = (oObj) => {
   var str = oObj.keys(obj).map(function(key) {
       return key + '=' + obj[key];
   }).join('&');
-  console.log('str: ', str)
 }
 
 
@@ -37,12 +35,46 @@ export const setAccessToken = (token) => {
   spotifyApi.setAccessToken(token)
 }
 
-// 'track:Alright artist:Kendrick Lamar'
-// 'artist:Love'
-export const searchTracks = (name) => {
-  return spotifyApi.searchTracks(name)
+export const formatSpotifyData = (obj) => {
+  const data = obj
+  data.track = {
+    href: obj.href,
+    name: obj.name,
+    preview: obj.preview 
+  }
+  return data
+}
+
+const getOptionSettings = (type, term) => {
+  let searchString = ''
+  switch (type) {
+      case 'song':
+          searchString = term
+      break;
+      case 'artist':
+          searchString = 'artist:' + term
+      break;
+      case 'song+artist':
+          let parts = term.split(', ')
+          let track = parts[0]
+          let artist = parts[1]
+          searchString = 'track:' + track + ' artist:' + artist
+      break;
+      case 'id':
+          searchString = term
+      break;
+      default:
+          searchString = term
+      break;
+  }
+  return searchString
+}
+
+export const searchTracks = (type, name) => {
+  let searchString = getOptionSettings(type, name)
+  
+  return spotifyApi.searchTracks(searchString)
     .then((data) => {
-      console.log('Search by ' + name + ', ', data.body)
       return data.body
     }, (err) => {
       console.error(err)
@@ -53,13 +85,13 @@ export const getAudioAnalysisForTrack = (id) => {
   /* Get Audio Analysis for a Track */
   return spotifyApi.getAudioAnalysisForTrack('3Qm86XLflmIXVm1wcwkgDK')
     .then(function(data) {
-      console.log('getAudioAnalysisForTrack: ', data.body)
     }, function(err) {
       done(err);
     });
 }
 
 export const getTrackById = (id) => {
+  debugger
   return spotifyApi.getTrack(id)
     .then(function(data) {
       console.log('getTrack: ', data.body)
