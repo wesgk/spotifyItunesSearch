@@ -9,7 +9,7 @@ import SearchContainer from '../containers/SearchContainer'
 const routes = (  
   <Router history={hashHistory}>
     <Route path='/' component={MainContainer}>
-      <IndexRoute component={LoginSpotifyContainer} />
+      <IndexRoute component={SearchContainer} />
       <Route path='login' component={LoginSpotifyContainer}></Route>
       <Route path='logout' component={LogoutSpotifyContainer}></Route>
       <Route path='callback' component={HomePageContainer}></Route>
