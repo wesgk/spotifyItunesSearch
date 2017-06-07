@@ -1,14 +1,10 @@
-
 import axios from 'axios'
 import queryString from 'query-string'
 
 const client_id = '39652b89ede94100abfd9e82cf8f5d45'; // Your client id
 const client_secret = '8341a2f591144da2af7f4bd58d682ffc'; // Your secret
-const redirect_uri = 'http://127.0.0.1:8888/#/callback'; // Your redirect uri
-// const redirect_uri = 'http://wesknight.com'; // Your redirect uri
 const stateKey = 'spotify_auth_state'; 
-const authUrl = 'http://localhost:8888/';
-
+const authUrl = 'http://localhost:8888/'; // Defined inside Spotify auth code
 const SpotifyWebApi = require('spotify-web-api-node')
 const spotifyApi = new SpotifyWebApi();
 
@@ -82,7 +78,7 @@ export const searchTracks = (type, name) => {
 }
 
 export const getAudioAnalysisForTrack = (id) => {
-  /* Get Audio Analysis for a Track */
+  // Get Audio Analysis for a Track.  Not called yet but returns lots of cool data
   return spotifyApi.getAudioAnalysisForTrack('3Qm86XLflmIXVm1wcwkgDK')
     .then(function(data) {
     }, function(err) {
@@ -91,7 +87,6 @@ export const getAudioAnalysisForTrack = (id) => {
 }
 
 export const getTrackById = (id) => {
-  debugger
   return spotifyApi.getTrack(id)
     .then(function(data) {
       console.log('getTrack: ', data.body)

@@ -15,6 +15,9 @@ var styles = {
   img: {
     maxWidth: '100%'
   },
+  buttonStyle: {
+    margin: '10px'
+  },
   errorMessage: {
     color: '#900',
     marginBottom: '15px'
