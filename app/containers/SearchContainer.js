@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import SearchForm from '../components/SearchForm'
 import TrackList from '../components/TrackList'
 import { searchTracks, getAudioAnalysisForTrack, getTrackById } from '../utils/spotifyHelpers'
-// getTrackById
 import iTunes from '../utils/itunesHelpers'
 
 const searchTypes = {

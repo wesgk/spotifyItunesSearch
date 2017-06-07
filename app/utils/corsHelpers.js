@@ -26,7 +26,6 @@ export const makeCorsRequest = (url) => {
   // This is a sample server that supports CORS.
   // var url = 'http://html5rocks-cors.s3-website-us-east-1.amazonaws.com/index.html'
 
-  console.log('url: ' + url)
   let success = ''
   let fail = ''
 

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 
-var styles = require('../styles')
+const styles = require('../styles')
 
 class SearchForm extends Component {
     constructor(props) {
