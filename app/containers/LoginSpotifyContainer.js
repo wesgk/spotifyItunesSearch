@@ -12,7 +12,6 @@ class LoginSpotifyContainer extends Component {
   }
   handleSubmitUser (e) {
     e.preventDefault();
-    console.log('get authObj');
     getAuthObj()
       .then(obj => {
         this.setState({ authObj: obj})

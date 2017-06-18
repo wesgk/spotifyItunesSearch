@@ -13,8 +13,8 @@ class SearchForm extends Component {
                 <h3>Search</h3>
                 <p>
                     <select name="service" onChange={this.props.handleServiceUpdate}>
-                        <option value="spotify">Spotify</option>
                         <option value="itunes">iTunes</option>
+                        <option value="spotify">Spotify</option>
                     </select>
                 </p>
                 <p>
