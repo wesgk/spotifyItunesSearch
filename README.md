@@ -15,7 +15,7 @@ $ npm run start
 
 ## Usage
 
-To enable the Spotify API you must authenticate with Spotify.  Without authentication you will see a 'missing token' message inside the consol. Clone and run the Authorization Code flow found here: https://github.com/spotify/web-api-auth-examples.  A successful authentication will supply you a client ID and secret.  Those values ~may~ have to be transfered to the corresponding variables here: /app/utils/spotifyHelpers.js.  
+Recent changes of the Spotify API makes authentication a requirement for accessing the search endpoints therefore the Spotify song search portion of this app will not work. Additionally, the recent updates seem to have broken the Spotify Library.
 
 To run the iTunes API you'll need to install this [CORS extension for Chrome](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi)
 

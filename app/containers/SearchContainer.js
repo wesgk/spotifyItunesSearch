@@ -20,7 +20,7 @@ class SearchContainer extends Component {
             status: '',
             placeholder: 'Song title',
             tracks: [],
-            service: 'spotify',
+            service: 'itunes',
             loading: false
         }
         // this.TrackList = ITunesTrackList // default tracklist component

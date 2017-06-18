@@ -44,7 +44,7 @@ const toParams = (obj) => {
 }
 
 window.wsSearchCB = () => {
-    console.log('callback fired')
+    console.info('callback fired')
 }
 
 export const formatITunesData = (obj) => {
